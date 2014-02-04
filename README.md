@@ -37,3 +37,8 @@ All animation is based on the width of *TreePanel.java being exactly a power
 of two, and any width values that are not exactly powers of two will cause a
 less-than-symmetric tree to be displayed (at best) and unpredictable behavior
 (at worst). 
+
+The splay tree program features a button that allows the user to turn the 
+splaying on and off. A splay tree without splaying is simply a plain old
+binary search tree, so this program doubles as simple, non-balancing BST
+demo as well. 
