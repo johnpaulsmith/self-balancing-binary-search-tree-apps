@@ -4,7 +4,6 @@ Red-Black Tree and Splay Tree Animation
 John Paul Smith
 
 Created: 11/26/2012
-Last modified: 3/18/2013
 
 Desktop teaching aid applications for demonstrating several self-balancing 
 binary search trees. Allows visual animated demonstrations of operations 
