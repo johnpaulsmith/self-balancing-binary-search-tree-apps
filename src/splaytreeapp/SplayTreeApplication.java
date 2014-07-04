@@ -1,8 +1,7 @@
 /**
  * @author John Paul Smith
- * 
+ *
  */
-
 package splaytreeapp;
 
 import javax.swing.JFrame;
