@@ -227,22 +227,19 @@ public class SplayTreePanel extends JPanel {
 
             pause(pauseDelay);
 
-            if (p != nil) {
+            if (p != nil && splayEnabled) {
 
-                if (splayEnabled) {
+                p.color = Color.cyan;
 
-                    p.color = Color.cyan;
+                repaint();
+                pause(pauseDelay);
 
-                    repaint();
-                    pause(pauseDelay);
+                splay(p);
 
-                    splay(p);
+                p.color = nodeColor;
 
-                    p.color = nodeColor;
-
-                    repaint();
-                    pause(pauseDelay);
-                }
+                repaint();
+                pause(pauseDelay);
             }
 
         } else if (z.right == nil) {
@@ -291,20 +288,17 @@ public class SplayTreePanel extends JPanel {
 
             pause(pauseDelay);
 
-            if (p != nil) {
+            if (p != nil && splayEnabled) {
 
-                if (splayEnabled) {
+                p.color = Color.cyan;
+                repaint();
+                pause(pauseDelay);
 
-                    p.color = Color.cyan;
-                    repaint();
-                    pause(pauseDelay);
+                splay(p);
 
-                    splay(p);
-
-                    p.color = nodeColor;
-                    repaint();
-                    pause(pauseDelay);
-                }
+                p.color = nodeColor;
+                repaint();
+                pause(pauseDelay);
             }
 
         } else {//node to be removed has two children           
