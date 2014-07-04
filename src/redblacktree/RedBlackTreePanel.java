@@ -14,11 +14,14 @@ import javax.swing.JPanel;
 
 public class RedBlackTreePanel extends JPanel {
 
+    final int ROOT_V_OFFSET = 50;
     final int MAX_CAPACITY = 25;
     final int NODE_DIAM = 30;
     final int V_SPACER = (NODE_DIAM * 3);
     final int HIGHLIGHT_DELAY = 1000;
     final double DELAY_INCREMENT = .1;
+    final Dimension PANEL_SIZE = new Dimension(1024, 708);
+    final Color BG_COLOR = new Color(210, 210, 210);
     Node root, nil;
     Color opColor;
     ArrayList<Node> nodes;
@@ -28,9 +31,9 @@ public class RedBlackTreePanel extends JPanel {
     public RedBlackTreePanel() {
 
         setBorder(BorderFactory.createRaisedSoftBevelBorder());
-        setPreferredSize(new Dimension(1024, 708));
+        setPreferredSize(PANEL_SIZE);
         setLayout(new BorderLayout());
-        setBackground(new Color(210, 210, 210));
+        setBackground(BG_COLOR);
 
         opColor = Color.blue;
         root = nil = new Node(null, Color.black, null, nil, nil);
@@ -69,7 +72,7 @@ public class RedBlackTreePanel extends JPanel {
 
             root = n;
             n.x = (getSize().width / 2);
-            n.y = 50;
+            n.y = ROOT_V_OFFSET;
 
             repaint();
             pause(pauseDelay);
