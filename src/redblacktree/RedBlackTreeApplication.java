@@ -11,7 +11,7 @@ public class RedBlackTreeApplication extends JFrame {
 
     public RedBlackTreeApplication() {
 
-        super("Red-Black Tree Animation");
+        super("Red-Black Tree");
 
         add(new MainDisplayPanel());
 

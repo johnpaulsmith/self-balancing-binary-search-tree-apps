@@ -12,7 +12,7 @@ public class SplayTreeApplication extends JFrame {
 
     public SplayTreeApplication() {    
         
-        super("Splay Tree Animation");
+        super("Splay Tree");
         
         add(new MainDisplayPanel());
         
