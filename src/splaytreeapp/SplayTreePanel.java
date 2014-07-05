@@ -52,26 +52,26 @@ public class SplayTreePanel extends JPanel {
             return false;
         }
 
-        Node n = new Node(e, opColor, null, nil, nil), y = nil, x = root;
+        Node n = new Node(e, opColor, null, nil, nil), p = nil, q = root;
 
-        while (x != nil) {
+        while (q != nil) {
 
-            y = x;
+            p = q;
 
-            if (n.compareTo(x) < 0) {
-                x = x.left;
+            if (n.compareTo(q) < 0) {
+                q = q.left;
             } else {
-                x = x.right;
+                q = q.right;
             }
         }
 
         nodes.add(n);
 
-        n.parent = y;
+        n.parent = p;
 
         double h = (getSize().width / (int) Math.pow(2, depthOf(n) + 1));
 
-        if (y == nil) {
+        if (p == nil) {
             root = n;
             n.x = (getSize().width / 2);
             n.y = ROOT_V_OFFSET;
@@ -79,12 +79,12 @@ public class SplayTreePanel extends JPanel {
             repaint();
             pause(pauseDelay);
 
-        } else if (n.compareTo(y) < 0) {
+        } else if (n.compareTo(p) < 0) {
 
-            y.left = n;
+            p.left = n;
 
-            n.x = y.x;
-            n.y = y.y;
+            n.x = p.x;
+            n.y = p.y;
 
             for (int c = 0; c < V_SPACER; ++c) {
 
@@ -100,10 +100,10 @@ public class SplayTreePanel extends JPanel {
 
         } else {
 
-            y.right = n;
+            p.right = n;
 
-            n.x = y.x;
-            n.y = y.y;
+            n.x = p.x;
+            n.y = p.y;
 
             for (int c = 0; c < V_SPACER; ++c) {
 
@@ -173,43 +173,43 @@ public class SplayTreePanel extends JPanel {
         return (prev == n ? n : null);
     }
 
-    private Node remove(Node z) {
+    private Node remove(Node n) {
 
-        Node y = z, x, p;
+        Node p, q, r;
 
-        z.color = opColor;
+        n.color = opColor;
         repaint();
         pause(pauseDelay);
 
-        if (z.left == nil) {
+        if (n.left == nil) {
 
             pause(pauseDelay);
 
-            p = z.parent;
-            x = z.right;
-            bypass(z, z.right);
+            r = n.parent;
+            q = n.right;
+            bypass(n, n.right);
 
-            z.parent = z.left = z.right = null;
+            n.parent = n.left = n.right = null;
 
             repaint();
             pause(pauseDelay);
 
-            nodes.remove(z);
+            nodes.remove(n);
 
             repaint();
             pause(pauseDelay);
 
-            if (x != nil) {
+            if (q != nil) {
 
                 j = 1;
 
-                int deepest = deepest(x, x);
+                int deepest = deepest(q, q);
 
                 Node[] A = new Node[(int) Math.pow(2, deepest + 1)];
 
-                subTreeRightSide(x, x, A, deepest);
+                subTreeRightSide(q, q, A, deepest);
 
-                double xSpacer = (getSize().width / Math.pow(2, deepest(x, root) + 2));
+                double xSpacer = (getSize().width / Math.pow(2, deepest(q, root) + 2));
 
                 for (int c = 0; c < V_SPACER; ++c) {
 
@@ -227,50 +227,50 @@ public class SplayTreePanel extends JPanel {
 
             pause(pauseDelay);
 
-            if (p != nil && splayEnabled) {
+            if (r != nil && splayEnabled) {
 
-                p.color = Color.cyan;
+                r.color = Color.cyan;
 
                 repaint();
                 pause(pauseDelay);
 
-                splay(p);
+                splay(r);
 
-                p.color = nodeColor;
+                r.color = nodeColor;
 
                 repaint();
                 pause(pauseDelay);
             }
 
-        } else if (z.right == nil) {
+        } else if (n.right == nil) {
 
             pause(pauseDelay);
 
-            p = z.parent;
-            x = z.left;
-            bypass(z, z.left);
+            r = n.parent;
+            q = n.left;
+            bypass(n, n.left);
 
-            z.parent = z.left = z.right = null;
+            n.parent = n.left = n.right = null;
 
             repaint();
             pause(pauseDelay);
 
-            nodes.remove(z);
+            nodes.remove(n);
 
             repaint();
             pause(pauseDelay);
 
-            if (x != nil) {
+            if (q != nil) {
 
                 i = 1;
 
-                int deepest = deepest(x, x);
+                int deepest = deepest(q, q);
 
                 Node[] A = new Node[(int) Math.pow(2, deepest + 1)];
 
-                subTreeLeftSide(x, x, A, deepest);
+                subTreeLeftSide(q, q, A, deepest);
 
-                double xSpacer = (getSize().width / Math.pow(2, deepest(x, root) + 2));
+                double xSpacer = (getSize().width / Math.pow(2, deepest(q, root) + 2));
 
                 for (int c = 0; c < V_SPACER; ++c) {
 
@@ -288,15 +288,15 @@ public class SplayTreePanel extends JPanel {
 
             pause(pauseDelay);
 
-            if (p != nil && splayEnabled) {
+            if (r != nil && splayEnabled) {
 
-                p.color = Color.cyan;
+                r.color = Color.cyan;
                 repaint();
                 pause(pauseDelay);
 
-                splay(p);
+                splay(r);
 
-                p.color = nodeColor;
+                r.color = nodeColor;
                 repaint();
                 pause(pauseDelay);
             }
@@ -305,45 +305,45 @@ public class SplayTreePanel extends JPanel {
 
             pause(pauseDelay);
 
-            y = min(z.right);
-            x = y.right;
+            p = min(n.right);
+            q = p.right;
 
-            if (y.parent == z) {
-                x.parent = y;
+            if (p.parent == n) {
+                q.parent = p;
             } else {
-                bypass(y, y.right);
-                y.right = z.right;
-                y.right.parent = y;
+                bypass(p, p.right);
+                p.right = n.right;
+                p.right.parent = p;
             }
 
-            bypass(z, y);
-            y.left = z.left;
-            y.left.parent = y;
+            bypass(n, p);
+            p.left = n.left;
+            p.left.parent = p;
 
-            y.x = z.x;
-            y.y = z.y;
+            p.x = n.x;
+            p.y = n.y;
 
-            z.parent = z.left = z.right = null;
-
-            repaint();
-            pause(pauseDelay);
-
-            nodes.remove(z);
+            n.parent = n.left = n.right = null;
 
             repaint();
             pause(pauseDelay);
 
-            if (x != nil) {
+            nodes.remove(n);
+
+            repaint();
+            pause(pauseDelay);
+
+            if (q != nil) {
 
                 j = 1;
 
-                int deepest = deepest(x, x);
+                int deepest = deepest(q, q);
 
                 Node[] A = new Node[(int) Math.pow(2, deepest + 1)];
 
-                subTreeRightSide(x, x, A, deepest);
+                subTreeRightSide(q, q, A, deepest);
 
-                double xSpacer = (getSize().width / Math.pow(2, deepest(x, root) + 2));
+                double xSpacer = (getSize().width / Math.pow(2, deepest(q, root) + 2));
 
                 for (int c = 0; c < V_SPACER; ++c) {
 
@@ -363,14 +363,14 @@ public class SplayTreePanel extends JPanel {
 
             if (splayEnabled) {
 
-                x.parent.color = opColor;
+                q.parent.color = opColor;
                 repaint();
                 pause(HIGHLIGHT_DELAY);
 
-                splay(x.parent);
+                splay(q.parent);
 
                 pause(HIGHLIGHT_DELAY);
-                x.parent.color = nodeColor;
+                q.parent.color = nodeColor;
                 repaint();
             }
         }
@@ -381,31 +381,31 @@ public class SplayTreePanel extends JPanel {
 
         nil.parent = null;
 
-        return z;
+        return n;
     }
 
-    private void bypass(Node x, Node y) {
+    private void bypass(Node a, Node b) {
 
-        if (x.parent == nil) {
-            root = y;
-        } else if (x == x.parent.left) {
-            x.parent.left = y;
+        if (a.parent == nil) {
+            root = b;
+        } else if (a == a.parent.left) {
+            a.parent.left = b;
         } else {
-            x.parent.right = y;
+            a.parent.right = b;
         }
 
-        y.parent = x.parent;
+        b.parent = a.parent;
     }
 
-    private void splay(Node x) {
+    private void splay(Node n) {
 
-        while (x != root) {
+        while (n != root) {
 
-            if (x.parent.parent == nil) {
+            if (n.parent.parent == nil) {
 
-                if (x == x.parent.left) {/*"zig" case*/
+                if (n == n.parent.left) {/*"zig" case*/
 
-                    rightRotate(x.parent);
+                    rightRotate(n.parent);
 
                     repaint();
 
@@ -413,7 +413,7 @@ public class SplayTreePanel extends JPanel {
 
                 } else {
 
-                    leftRotate(x.parent);
+                    leftRotate(n.parent);
 
                     repaint();
 
@@ -421,27 +421,27 @@ public class SplayTreePanel extends JPanel {
                 }
             } else {
 
-                if (x.parent == x.parent.parent.left) {
+                if (n.parent == n.parent.parent.left) {
 
-                    if (x == x.parent.left) { /*"zig-zig" case*/
+                    if (n == n.parent.left) { /*"zig-zig" case*/
 
-                        rightRotate(x.parent.parent);
+                        rightRotate(n.parent.parent);
 
                         repaint();
                         pause(pauseDelay);
 
-                        rightRotate(x.parent);
+                        rightRotate(n.parent);
 
                         repaint();
                         pause(pauseDelay);
                     } else { /*"zig-zag" case*/
 
-                        leftRotate(x.parent);
+                        leftRotate(n.parent);
 
                         repaint();
                         pause(pauseDelay);
 
-                        rightRotate(x.parent);
+                        rightRotate(n.parent);
 
                         repaint();
                         pause(pauseDelay);
@@ -449,25 +449,25 @@ public class SplayTreePanel extends JPanel {
 
                 } else {
 
-                    if (x == x.parent.right) {/*"zig-zig" case*/
+                    if (n == n.parent.right) {/*"zig-zig" case*/
 
-                        leftRotate(x.parent.parent);
+                        leftRotate(n.parent.parent);
 
                         repaint();
                         pause(pauseDelay);
 
-                        leftRotate(x.parent);
+                        leftRotate(n.parent);
 
                         repaint();
                         pause(pauseDelay);
                     } else {/*"zig-zag" case*/
 
-                        rightRotate(x.parent);
+                        rightRotate(n.parent);
 
                         repaint();
                         pause(pauseDelay);
 
-                        leftRotate(x.parent);
+                        leftRotate(n.parent);
 
                         repaint();
                         pause(pauseDelay);
@@ -525,34 +525,34 @@ public class SplayTreePanel extends JPanel {
         return (prev == n ? n : null);
     }
 
-    private void leftRotate(Node x) {
+    private void leftRotate(Node n) {
 
-        Node y = x.right;
+        Node q = n.right;
 
-        x.right = y.left;
+        n.right = q.left;
 
         repaint();
         pause(pauseDelay);
 
-        if (y.left != nil) {
-            y.left.parent = x;
+        if (q.left != nil) {
+            q.left.parent = n;
         }
 
-        y.parent = x.parent;
+        q.parent = n.parent;
 
-        if (x.parent == nil) {
-            root = y;
-        } else if (x == x.parent.left) {
-            x.parent.left = y;
+        if (n.parent == nil) {
+            root = q;
+        } else if (n == n.parent.left) {
+            n.parent.left = q;
         } else {
-            x.parent.right = y;
+            n.parent.right = q;
         }
 
         repaint();
         pause(pauseDelay);
 
-        y.left = x;
-        x.parent = y;
+        q.left = n;
+        n.parent = q;
 
         repaint();
         pause(pauseDelay);
@@ -564,43 +564,43 @@ public class SplayTreePanel extends JPanel {
 
         i = j = 1;
 
-        if (y.right != nil) {
+        if (q.right != nil) {
 
-            int yRightDeepest = deepest(y.right, y.right);
+            int yRightDeepest = deepest(q.right, q.right);
 
             A = new Node[(int) Math.pow(2, yRightDeepest + 1)];
 
-            subTreeRightSide(y.right, y.right, A, yRightDeepest);
+            subTreeRightSide(q.right, q.right, A, yRightDeepest);
 
-            yRightSpacer = (getSize().width / Math.pow(2, deepest(y.right, root) + 2));
+            yRightSpacer = (getSize().width / Math.pow(2, deepest(q.right, root) + 2));
 
         } else {
             A = new Node[0];
         }
 
-        if (x.left != nil) {
+        if (n.left != nil) {
 
-            int xLeftDeepest = deepest(x.left, x.left);
+            int xLeftDeepest = deepest(n.left, n.left);
 
             B = new Node[(int) Math.pow(2, xLeftDeepest + 1)];
 
-            subTreeLeftSide(x.left, x.left, B, xLeftDeepest);
+            subTreeLeftSide(n.left, n.left, B, xLeftDeepest);
 
-            xLeftSpacer = (getSize().width / Math.pow(2, deepest(x.left, root) + 1));
+            xLeftSpacer = (getSize().width / Math.pow(2, deepest(n.left, root) + 1));
 
         } else {
             B = new Node[0];
         }
 
-        double xSpacer = (getSize().width / Math.pow(2, depthOf(x) + 1));
+        double xSpacer = (getSize().width / Math.pow(2, depthOf(n) + 1));
 
         for (int c = 0; c < V_SPACER; ++c) {
 
-            ++x.y;
-            x.x -= (xSpacer / V_SPACER);
+            ++n.y;
+            n.x -= (xSpacer / V_SPACER);
 
-            --y.y;
-            y.x -= (xSpacer / V_SPACER);
+            --q.y;
+            q.x -= (xSpacer / V_SPACER);
 
             for (int z = 1; z < A.length; ++z) {
 
@@ -616,8 +616,8 @@ public class SplayTreePanel extends JPanel {
                 }
             }
 
-            if (x.right != nil) {
-                shiftOver(x.right, -1, getSize().width / Math.pow(2, depthOf(x.right)));
+            if (n.right != nil) {
+                shiftOver(n.right, -1, getSize().width / Math.pow(2, depthOf(n.right)));
             }
 
             pause(redrawDelay + (DELAY_INCREMENT * c));
@@ -625,34 +625,34 @@ public class SplayTreePanel extends JPanel {
         }
     }
 
-    private void rightRotate(Node x) {
+    private void rightRotate(Node n) {
 
-        Node y = x.left;
+        Node q = n.left;
 
-        x.left = y.right;
+        n.left = q.right;
 
         repaint();
         pause(pauseDelay);
 
-        if (y.right != nil) {
-            y.right.parent = x;
+        if (q.right != nil) {
+            q.right.parent = n;
         }
 
-        y.parent = x.parent;
+        q.parent = n.parent;
 
-        if (x.parent == nil) {
-            root = y;
-        } else if (x == x.parent.left) {
-            x.parent.left = y;
+        if (n.parent == nil) {
+            root = q;
+        } else if (n == n.parent.left) {
+            n.parent.left = q;
         } else {
-            x.parent.right = y;
+            n.parent.right = q;
         }
 
         repaint();
         pause(pauseDelay);
 
-        y.right = x;
-        x.parent = y;
+        q.right = n;
+        n.parent = q;
 
         repaint();
         pause(pauseDelay);
@@ -664,43 +664,43 @@ public class SplayTreePanel extends JPanel {
 
         i = j = 1;
 
-        if (y.left != nil) {
+        if (q.left != nil) {
 
-            int yLeftDeepest = deepest(y.left, y.left);
+            int yLeftDeepest = deepest(q.left, q.left);
 
             A = new Node[(int) Math.pow(2, yLeftDeepest + 1)];
 
-            subTreeLeftSide(y.left, y.left, A, yLeftDeepest);
+            subTreeLeftSide(q.left, q.left, A, yLeftDeepest);
 
-            yLeftSpacer = (getSize().width / Math.pow(2, deepest(y.left, root) + 2));
+            yLeftSpacer = (getSize().width / Math.pow(2, deepest(q.left, root) + 2));
 
         } else {
             A = new Node[0];
         }
 
-        if (x.right != nil) {
+        if (n.right != nil) {
 
-            int xRightDeepest = deepest(x.right, x.right);
+            int xRightDeepest = deepest(n.right, n.right);
 
             B = new Node[(int) Math.pow(2, xRightDeepest + 1)];
 
-            subTreeRightSide(x.right, x.right, B, xRightDeepest);
+            subTreeRightSide(n.right, n.right, B, xRightDeepest);
 
-            xRightSpacer = (getSize().width / Math.pow(2, deepest(x.right, root) + 1));
+            xRightSpacer = (getSize().width / Math.pow(2, deepest(n.right, root) + 1));
 
         } else {
             B = new Node[0];
         }
 
-        double xSpacer = (getSize().width / Math.pow(2, depthOf(x) + 1));
+        double xSpacer = (getSize().width / Math.pow(2, depthOf(n) + 1));
 
         for (int c = 0; c < V_SPACER; ++c) {
 
-            ++x.y;
-            x.x += (xSpacer / V_SPACER);
+            ++n.y;
+            n.x += (xSpacer / V_SPACER);
 
-            --y.y;
-            y.x += (xSpacer / V_SPACER);
+            --q.y;
+            q.x += (xSpacer / V_SPACER);
 
             for (int z = 1; z < A.length; ++z) {
 
@@ -716,8 +716,8 @@ public class SplayTreePanel extends JPanel {
                 }
             }
 
-            if (x.left != nil) {
-                shiftOver(x.left, 1, getSize().width / Math.pow(2, depthOf(x.left)));
+            if (n.left != nil) {
+                shiftOver(n.left, 1, getSize().width / Math.pow(2, depthOf(n.left)));
             }
 
             pause(redrawDelay + (DELAY_INCREMENT * c));

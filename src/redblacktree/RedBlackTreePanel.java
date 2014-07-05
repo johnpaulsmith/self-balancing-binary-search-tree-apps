@@ -49,26 +49,26 @@ public class RedBlackTreePanel extends JPanel {
             return false;
         }
 
-        Node n = new Node(e, opColor, null, nil, nil), y = nil, x = root;
+        Node n = new Node(e, opColor, null, nil, nil), p = nil, q = root;
 
-        while (x != nil) {
+        while (q != nil) {
 
-            y = x;
+            p = q;
 
-            if (n.compareTo(x) < 0) {
-                x = x.left;
+            if (n.compareTo(q) < 0) {
+                q = q.left;
             } else {
-                x = x.right;
+                q = q.right;
             }
         }
 
         nodes.add(n);
 
-        n.parent = y;
+        n.parent = p;
 
         double h = (getSize().width / (int) Math.pow(2, depthOf(n) + 1));
 
-        if (y == nil) {
+        if (p == nil) {
 
             root = n;
             n.x = (getSize().width / 2);
@@ -79,12 +79,12 @@ public class RedBlackTreePanel extends JPanel {
 
             n.color = Color.black;
 
-        } else if (n.compareTo(y) < 0) {
+        } else if (n.compareTo(p) < 0) {
 
-            y.left = n;
+            p.left = n;
 
-            n.x = y.x;
-            n.y = y.y;
+            n.x = p.x;
+            n.y = p.y;
 
             for (int c = 0; c < V_SPACER; ++c) {
 
@@ -102,10 +102,10 @@ public class RedBlackTreePanel extends JPanel {
 
         } else {
 
-            y.right = n;
+            p.right = n;
 
-            n.x = y.x;
-            n.y = y.y;
+            n.x = p.x;
+            n.y = p.y;
 
             for (int c = 0; c < V_SPACER; ++c) {
 
@@ -141,84 +141,84 @@ public class RedBlackTreePanel extends JPanel {
         return true;
     }
 
-    private void insertFix(Node x) {
+    private void insertFix(Node z) {
 
-        Node y;
+        Node p;
 
-        while (x.parent.color == Color.red) {
+        while (z.parent.color == Color.red) {
 
-            if (x.parent == x.parent.parent.left) {
+            if (z.parent == z.parent.parent.left) {
 
-                y = x.parent.parent.right;
+                p = z.parent.parent.right;
 
-                if (y.color == Color.red) {
+                if (p.color == Color.red) {
 
                     pause(pauseDelay);
 
-                    y.color = x.parent.color = Color.black;
+                    p.color = z.parent.color = Color.black;
 
                     repaint();
                     pause(pauseDelay);
 
-                    x.parent.parent.color = Color.red;
+                    z.parent.parent.color = Color.red;
 
                     repaint();
                     pause(pauseDelay);
 
-                    x = x.parent.parent;
+                    z = z.parent.parent;
 
                 } else {
 
-                    if (x == x.parent.right) {
+                    if (z == z.parent.right) {
 
-                        x = x.parent;
+                        z = z.parent;
 
-                        leftRotate(x);
+                        leftRotate(z);
                     }
 
                     repaint();
                     pause(pauseDelay);
 
-                    x.parent.color = Color.black;
+                    z.parent.color = Color.black;
 
                     repaint();
                     pause(pauseDelay);
 
-                    x.parent.parent.color = Color.red;
+                    z.parent.parent.color = Color.red;
 
                     repaint();
                     pause(pauseDelay);
 
-                    rightRotate(x.parent.parent);
+                    rightRotate(z.parent.parent);
                 }
             } else {
 
-                y = x.parent.parent.left;
+                p = z.parent.parent.left;
 
-                if (y.color == Color.red) {
-
-                    repaint();
-                    pause(pauseDelay);
-
-                    y.color = x.parent.color = Color.black;
+                if (p.color == Color.red) {
 
                     repaint();
                     pause(pauseDelay);
 
-                    x.parent.parent.color = Color.red;
+                    p.color = z.parent.color = Color.black;
 
                     repaint();
                     pause(pauseDelay);
 
-                    x = x.parent.parent;
+                    z.parent.parent.color = Color.red;
+
+                    repaint();
+                    pause(pauseDelay);
+
+                    z = z.parent.parent;
 
                 } else {
 
-                    if (x == x.parent.left) {
+                    if (z == z.parent.left) {
 
-                        x = x.parent;
+                        z = z.parent;
 
-                        rightRotate(x);
+                        rightRotate(z);
 
                         repaint();
                         pause(pauseDelay);
@@ -227,17 +227,17 @@ public class RedBlackTreePanel extends JPanel {
                     repaint();
                     pause(pauseDelay);
 
-                    x.parent.color = Color.black;
+                    z.parent.color = Color.black;
 
                     repaint();
                     pause(pauseDelay);
 
-                    x.parent.parent.color = Color.red;
+                    z.parent.parent.color = Color.red;
 
                     repaint();
                     pause(pauseDelay);
 
-                    leftRotate(x.parent.parent);
+                    leftRotate(z.parent.parent);
 
                     repaint();
                     pause(pauseDelay);
@@ -253,43 +253,42 @@ public class RedBlackTreePanel extends JPanel {
         return (n != null ? remove(n).t : null);
     }
 
-    private Node remove(Node z) {
+    private Node remove(Node n) {
 
-        Node y = z, x;
+        Color originalcolor = n.color;
+        Node p, q;
 
-        Color originalcolor = y.color;
+        if (n.left == nil) {
 
-        if (z.left == nil) {
-
-            z.color = Color.blue;
-
-            repaint();
-            pause(pauseDelay);
-
-            x = z.right;
-            bypass(z, z.right);
-
-            z.parent = z.left = z.right = null;
+            n.color = Color.blue;
 
             repaint();
             pause(pauseDelay);
 
-            nodes.remove(z);
+            p = n.right;
+            bypass(n, n.right);
+
+            n.parent = n.left = n.right = null;
 
             repaint();
             pause(pauseDelay);
 
-            if (x != nil) {
+            nodes.remove(n);
+
+            repaint();
+            pause(pauseDelay);
+
+            if (p != nil) {
 
                 j = 1;
 
-                int deepest = deepest(x, x);
+                int deepest = deepest(p, p);
 
                 Node[] A = new Node[(int) Math.pow(2, deepest + 1)];
 
-                subTreeRightSide(x, x, A, deepest);
+                subTreeRightSide(p, p, A, deepest);
 
-                double xSpacer = (getSize().width / Math.pow(2, deepest(x, root) + 2));
+                double xSpacer = (getSize().width / Math.pow(2, deepest(p, root) + 2));
 
                 for (int c = 0; c < V_SPACER; ++c) {
 
@@ -305,38 +304,38 @@ public class RedBlackTreePanel extends JPanel {
                 }
             }
 
-        } else if (z.right == nil) {
+        } else if (n.right == nil) {
 
-            z.color = Color.blue;
-
-            repaint();
-            pause(pauseDelay);
-
-            x = z.left;
-
-            bypass(z, z.left);
-
-            z.parent = z.left = z.right = null;
+            n.color = Color.blue;
 
             repaint();
             pause(pauseDelay);
 
-            nodes.remove(z);
+            p = n.left;
+
+            bypass(n, n.left);
+
+            n.parent = n.left = n.right = null;
 
             repaint();
             pause(pauseDelay);
 
-            if (x != nil) {
+            nodes.remove(n);
+
+            repaint();
+            pause(pauseDelay);
+
+            if (p != nil) {
 
                 i = 1;
 
-                int deepest = deepest(x, x);
+                int deepest = deepest(p, p);
 
                 Node[] A = new Node[(int) Math.pow(2, deepest + 1)];
 
-                subTreeLeftSide(x, x, A, deepest);
+                subTreeLeftSide(p, p, A, deepest);
 
-                double xSpacer = (getSize().width / Math.pow(2, deepest(x, root) + 2));
+                double xSpacer = (getSize().width / Math.pow(2, deepest(p, root) + 2));
 
                 for (int c = 0; c < V_SPACER; ++c) {
 
@@ -353,64 +352,64 @@ public class RedBlackTreePanel extends JPanel {
             }
         } else {
 
-            Color zColor = z.color;
+            Color zColor = n.color;
 
-            z.color = Color.blue;
+            n.color = Color.blue;
 
             repaint();
             pause(pauseDelay);
 
-            y = min(z.right);
+            q = min(n.right);
 
-            originalcolor = y.color;
+            originalcolor = q.color;
 
-            x = y.right;
+            p = q.right;
 
-            if (y.parent == z) {
+            if (q.parent == n) {
 
-                x.parent = y;
+                p.parent = q;
 
             } else {
 
-                bypass(y, y.right);
+                bypass(q, q.right);
 
-                y.right = z.right;
+                q.right = n.right;
 
-                y.right.parent = y;
+                q.right.parent = q;
             }
 
-            bypass(z, y);
+            bypass(n, q);
 
-            y.left = z.left;
+            q.left = n.left;
 
-            y.left.parent = y;
+            q.left.parent = q;
 
-            y.color = zColor;
+            q.color = zColor;
 
-            y.x = z.x;
-            y.y = z.y;
+            q.x = n.x;
+            q.y = n.y;
 
-            z.parent = z.left = z.right = null;
-
-            repaint();
-            pause(pauseDelay);
-
-            nodes.remove(z);
+            n.parent = n.left = n.right = null;
 
             repaint();
             pause(pauseDelay);
 
-            if (x != nil) {
+            nodes.remove(n);
+
+            repaint();
+            pause(pauseDelay);
+
+            if (p != nil) {
 
                 j = 1;
 
-                int deepest = deepest(x, x);
+                int deepest = deepest(p, p);
 
                 Node[] A = new Node[(int) Math.pow(2, deepest + 1)];
 
-                subTreeRightSide(x, x, A, deepest);
+                subTreeRightSide(p, p, A, deepest);
 
-                double xSpacer = (getSize().width / Math.pow(2, deepest(x, root) + 2));
+                double xSpacer = (getSize().width / Math.pow(2, deepest(p, root) + 2));
 
                 for (int c = 0; c < V_SPACER; ++c) {
 
@@ -432,23 +431,23 @@ public class RedBlackTreePanel extends JPanel {
         pause(pauseDelay);
 
         if (originalcolor == Color.black) {
-            removeFix(x);
+            removeFix(p);
         }
 
         nil.parent = null;
 
         repaint();
 
-        return z;
+        return n;
     }
 
-    private void removeFix(Node x) {
+    private void removeFix(Node n) {
 
-        while (x != root && x.color == Color.black) {
+        while (n != root && n.color == Color.black) {
 
-            if (x == x.parent.left) {
+            if (n == n.parent.left) {
 
-                Node w = x.parent.right;
+                Node w = n.parent.right;
 
                 if (w.color == Color.red) {
 
@@ -460,17 +459,17 @@ public class RedBlackTreePanel extends JPanel {
                     repaint();
                     pause(pauseDelay);
 
-                    x.parent.color = Color.red;
+                    n.parent.color = Color.red;
 
                     repaint();
                     pause(pauseDelay);
 
-                    leftRotate(x.parent);
+                    leftRotate(n.parent);
 
                     repaint();
                     pause(pauseDelay);
 
-                    w = x.parent.right;
+                    w = n.parent.right;
                 }
                 if (w.left.color == Color.black && w.right.color == Color.black) {
 
@@ -479,7 +478,7 @@ public class RedBlackTreePanel extends JPanel {
                     repaint();
                     pause(pauseDelay);
 
-                    x = x.parent;
+                    n = n.parent;
 
                 } else {
                     if (w.right.color == Color.black) {
@@ -502,110 +501,110 @@ public class RedBlackTreePanel extends JPanel {
                         repaint();
                         pause(pauseDelay);
 
-                        w = x.parent.right;
+                        w = n.parent.right;
                     }
 
                     repaint();
                     pause(pauseDelay);
 
-                    w.color = x.parent.color;
+                    w.color = n.parent.color;
 
                     repaint();
                     pause(pauseDelay);
 
-                    x.parent.color = w.right.color = Color.black;
+                    n.parent.color = w.right.color = Color.black;
 
                     repaint();
                     pause(pauseDelay);
 
-                    leftRotate(x.parent);
+                    leftRotate(n.parent);
 
                     repaint();
                     pause(pauseDelay);
 
-                    x = root;
+                    n = root;
                 }
             } else {
 
-                Node w = x.parent.left;
+                Node p = n.parent.left;
 
-                if (w.color == Color.red) {
-
-                    repaint();
-                    pause(pauseDelay);
-
-                    w.color = Color.black;
+                if (p.color == Color.red) {
 
                     repaint();
                     pause(pauseDelay);
 
-                    x.parent.color = Color.red;
+                    p.color = Color.black;
 
                     repaint();
                     pause(pauseDelay);
 
-                    rightRotate(x.parent);
+                    n.parent.color = Color.red;
 
                     repaint();
                     pause(pauseDelay);
 
-                    w = x.parent.left;
+                    rightRotate(n.parent);
+
+                    repaint();
+                    pause(pauseDelay);
+
+                    p = n.parent.left;
                 }
-                if (w.left.color == Color.black && w.right.color == Color.black) {
+                if (p.left.color == Color.black && p.right.color == Color.black) {
 
                     repaint();
                     pause(pauseDelay);
 
-                    w.color = Color.red;
+                    p.color = Color.red;
 
                     repaint();
                     pause(pauseDelay);
 
-                    x = x.parent;
+                    n = n.parent;
                 } else {
 
-                    if (w.left.color == Color.black) {
+                    if (p.left.color == Color.black) {
 
                         repaint();
                         pause(pauseDelay);
 
-                        w.right.color = Color.black;
+                        p.right.color = Color.black;
 
                         repaint();
                         pause(pauseDelay);
 
-                        w.color = Color.red;
+                        p.color = Color.red;
 
                         repaint();
                         pause(pauseDelay);
 
-                        leftRotate(w);
+                        leftRotate(p);
 
                         repaint();
                         pause(pauseDelay);
 
-                        w = x.parent.left;
+                        p = n.parent.left;
                     }
 
                     repaint();
                     pause(pauseDelay);
 
-                    w.color = x.parent.color;
+                    p.color = n.parent.color;
 
                     repaint();
                     pause(pauseDelay);
 
-                    x.parent.color = w.left.color = Color.black;
+                    n.parent.color = p.left.color = Color.black;
 
                     repaint();
                     pause(pauseDelay);
 
-                    rightRotate(x.parent);
+                    rightRotate(n.parent);
 
                     repaint();
                     pause(pauseDelay);
 
-                    x = root;
+                    n = root;
                 }
             }
         }
@@ -613,53 +612,53 @@ public class RedBlackTreePanel extends JPanel {
         repaint();
         pause(pauseDelay);
 
-        x.color = Color.black;
+        n.color = Color.black;
 
         repaint();
         pause(pauseDelay);
     }
 
-    private void bypass(Node x, Node y) {
+    private void bypass(Node a, Node b) {
 
-        if (x.parent == nil) {
-            root = y;
-        } else if (x == x.parent.left) {
-            x.parent.left = y;
+        if (a.parent == nil) {
+            root = b;
+        } else if (a == a.parent.left) {
+            a.parent.left = b;
         } else {
-            x.parent.right = y;
+            a.parent.right = b;
         }
 
-        y.parent = x.parent;
+        b.parent = a.parent;
     }
 
-    private void leftRotate(Node x) {
+    private void leftRotate(Node n) {
 
-        Node y = x.right;
+        Node q = n.right;
 
-        x.right = y.left;
+        n.right = q.left;
 
         repaint();
         pause(pauseDelay);
 
-        if (y.left != nil) {
-            y.left.parent = x;
+        if (q.left != nil) {
+            q.left.parent = n;
         }
 
-        y.parent = x.parent;
+        q.parent = n.parent;
 
-        if (x.parent == nil) {
-            root = y;
-        } else if (x == x.parent.left) {
-            x.parent.left = y;
+        if (n.parent == nil) {
+            root = q;
+        } else if (n == n.parent.left) {
+            n.parent.left = q;
         } else {
-            x.parent.right = y;
+            n.parent.right = q;
         }
 
         repaint();
         pause(pauseDelay);
 
-        y.left = x;
-        x.parent = y;
+        q.left = n;
+        n.parent = q;
 
         repaint();
         pause(pauseDelay);
@@ -671,43 +670,43 @@ public class RedBlackTreePanel extends JPanel {
 
         i = j = 1;
 
-        if (y.right != nil) {
+        if (q.right != nil) {
 
-            int yRightDeepest = deepest(y.right, y.right);
+            int yRightDeepest = deepest(q.right, q.right);
 
             A = new Node[(int) Math.pow(2, yRightDeepest + 1)];
 
-            subTreeRightSide(y.right, y.right, A, yRightDeepest);
+            subTreeRightSide(q.right, q.right, A, yRightDeepest);
 
-            yRightSpacer = (getSize().width / Math.pow(2, deepest(y.right, root) + 2));
+            yRightSpacer = (getSize().width / Math.pow(2, deepest(q.right, root) + 2));
 
         } else {
             A = new Node[0];
         }
 
-        if (x.left != nil) {
+        if (n.left != nil) {
 
-            int xLeftDeepest = deepest(x.left, x.left);
+            int xLeftDeepest = deepest(n.left, n.left);
 
             B = new Node[(int) Math.pow(2, xLeftDeepest + 1)];
 
-            subTreeLeftSide(x.left, x.left, B, xLeftDeepest);
+            subTreeLeftSide(n.left, n.left, B, xLeftDeepest);
 
-            xLeftSpacer = (getSize().width / Math.pow(2, deepest(x.left, root) + 1));
+            xLeftSpacer = (getSize().width / Math.pow(2, deepest(n.left, root) + 1));
 
         } else {
             B = new Node[0];
         }
 
-        double xSpacer = (getSize().width / Math.pow(2, depthOf(x) + 1));
+        double xSpacer = (getSize().width / Math.pow(2, depthOf(n) + 1));
 
         for (int c = 0; c < V_SPACER; ++c) {
 
-            ++x.y;
-            x.x -= (xSpacer / V_SPACER);
+            ++n.y;
+            n.x -= (xSpacer / V_SPACER);
 
-            --y.y;
-            y.x -= (xSpacer / V_SPACER);
+            --q.y;
+            q.x -= (xSpacer / V_SPACER);
 
             for (int z = 1; z < A.length; ++z) {
 
@@ -723,8 +722,8 @@ public class RedBlackTreePanel extends JPanel {
                 }
             }
 
-            if (x.right != nil) {
-                shiftOver(x.right, -1, getSize().width / Math.pow(2, depthOf(x.right)));
+            if (n.right != nil) {
+                shiftOver(n.right, -1, getSize().width / Math.pow(2, depthOf(n.right)));
             }
 
             pause(redrawDelay + (DELAY_INCREMENT * c));
@@ -732,34 +731,34 @@ public class RedBlackTreePanel extends JPanel {
         }
     }
 
-    private void rightRotate(Node x) {
+    private void rightRotate(Node n) {
 
-        Node y = x.left;
+        Node q = n.left;
 
-        x.left = y.right;
+        n.left = q.right;
 
         repaint();
         pause(pauseDelay);
 
-        if (y.right != nil) {
-            y.right.parent = x;
+        if (q.right != nil) {
+            q.right.parent = n;
         }
 
-        y.parent = x.parent;
+        q.parent = n.parent;
 
-        if (x.parent == nil) {
-            root = y;
-        } else if (x == x.parent.left) {
-            x.parent.left = y;
+        if (n.parent == nil) {
+            root = q;
+        } else if (n == n.parent.left) {
+            n.parent.left = q;
         } else {
-            x.parent.right = y;
+            n.parent.right = q;
         }
 
         repaint();
         pause(pauseDelay);
 
-        y.right = x;
-        x.parent = y;
+        q.right = n;
+        n.parent = q;
 
         repaint();
         pause(pauseDelay);
@@ -771,43 +770,43 @@ public class RedBlackTreePanel extends JPanel {
 
         i = j = 1;
 
-        if (y.left != nil) {
+        if (q.left != nil) {
 
-            int yLeftDeepest = deepest(y.left, y.left);
+            int yLeftDeepest = deepest(q.left, q.left);
 
             A = new Node[(int) Math.pow(2, yLeftDeepest + 1)];
 
-            subTreeLeftSide(y.left, y.left, A, yLeftDeepest);
+            subTreeLeftSide(q.left, q.left, A, yLeftDeepest);
 
-            yLeftSpacer = (getSize().width / Math.pow(2, deepest(y.left, root) + 2));
+            yLeftSpacer = (getSize().width / Math.pow(2, deepest(q.left, root) + 2));
 
         } else {
             A = new Node[0];
         }
 
-        if (x.right != nil) {
+        if (n.right != nil) {
 
-            int xRightDeepest = deepest(x.right, x.right);
+            int xRightDeepest = deepest(n.right, n.right);
 
             B = new Node[(int) Math.pow(2, xRightDeepest + 1)];
 
-            subTreeRightSide(x.right, x.right, B, xRightDeepest);
+            subTreeRightSide(n.right, n.right, B, xRightDeepest);
 
-            xRightSpacer = (getSize().width / Math.pow(2, deepest(x.right, root) + 1));
+            xRightSpacer = (getSize().width / Math.pow(2, deepest(n.right, root) + 1));
 
         } else {
             B = new Node[0];
         }
 
-        double xSpacer = (getSize().width / Math.pow(2, depthOf(x) + 1));
+        double xSpacer = (getSize().width / Math.pow(2, depthOf(n) + 1));
 
         for (int c = 0; c < V_SPACER; ++c) {
 
-            ++x.y;
-            x.x += (xSpacer / V_SPACER);
+            ++n.y;
+            n.x += (xSpacer / V_SPACER);
 
-            --y.y;
-            y.x += (xSpacer / V_SPACER);
+            --q.y;
+            q.x += (xSpacer / V_SPACER);
 
             for (int z = 1; z < A.length; ++z) {
 
@@ -823,8 +822,8 @@ public class RedBlackTreePanel extends JPanel {
                 }
             }
 
-            if (x.left != nil) {
-                shiftOver(x.left, 1, getSize().width / Math.pow(2, depthOf(x.left)));
+            if (n.left != nil) {
+                shiftOver(n.left, 1, getSize().width / Math.pow(2, depthOf(n.left)));
             }
 
             pause(redrawDelay + (DELAY_INCREMENT * c));
