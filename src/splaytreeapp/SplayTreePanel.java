@@ -229,7 +229,7 @@ public class SplayTreePanel extends JPanel {
 
             if (r != nil && splayEnabled) {
 
-                r.color = Color.cyan;
+                r.color = opColor;
 
                 repaint();
                 pause(pauseDelay);
@@ -290,7 +290,8 @@ public class SplayTreePanel extends JPanel {
 
             if (r != nil && splayEnabled) {
 
-                r.color = Color.cyan;
+                r.color = opColor;
+                
                 repaint();
                 pause(pauseDelay);
 
