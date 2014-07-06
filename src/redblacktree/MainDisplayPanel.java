@@ -2,7 +2,6 @@
  * @author John Paul Smith
  *
  */
-
 package redblacktree;
 
 import java.awt.event.ActionEvent;
@@ -17,6 +16,7 @@ import javax.swing.event.ChangeListener;
 public class MainDisplayPanel extends JPanel implements ActionListener, ChangeListener {
 
     final String NUMERIC_REGEX_PATTERN = "[0-9]+?";/*match integer-only Strings*/
+
     final int MAX_LENGTH = 3;/*length of input string, ie. 3-digit integers or less*/
 
     RedBlackTreePanel treePanel;
@@ -56,7 +56,7 @@ public class MainDisplayPanel extends JPanel implements ActionListener, ChangeLi
             controlPanel.inputField.setText("");
 
             if (input.matches(NUMERIC_REGEX_PATTERN) && input.length() <= MAX_LENGTH) {
-                new Adder(Integer.parseInt(input)).start();
+                new Thread(new NodeAdder(Integer.parseInt(input)), NodeAdder.ADDER_NAME).start();
             }
         }
 
@@ -67,7 +67,7 @@ public class MainDisplayPanel extends JPanel implements ActionListener, ChangeLi
             controlPanel.inputField.setText("");
 
             if (input.matches(NUMERIC_REGEX_PATTERN) && input.length() <= MAX_LENGTH) {
-                new Finder(Integer.parseInt(input)).start();
+                new Thread(new NodeFinder(Integer.parseInt(input)), NodeFinder.FINDER_NAME).start();
             }
         }
 
@@ -78,7 +78,7 @@ public class MainDisplayPanel extends JPanel implements ActionListener, ChangeLi
             controlPanel.inputField.setText("");
 
             if (input.matches(NUMERIC_REGEX_PATTERN) && input.length() <= MAX_LENGTH) {
-                new Remover(Integer.parseInt(input)).start();
+                new Thread(new NodeRemover(Integer.parseInt(input)), NodeRemover.REMOVER_NAME).start();
             }
         }
 
@@ -91,7 +91,11 @@ public class MainDisplayPanel extends JPanel implements ActionListener, ChangeLi
             c.getThreadGroup().enumerate(t);
 
             for (Thread x : t) { /*simply return if there are other Threads queued or executing operations on the tree*/
-                if (x instanceof Adder || x instanceof Remover || x instanceof Finder) {
+
+                if (x.getName().equals(NodeAdder.ADDER_NAME)
+                        || x.getName().equals(NodeRemover.REMOVER_NAME)
+                        || x.getName().equals(NodeFinder.FINDER_NAME)) {
+
                     return;
                 }
             }
@@ -115,21 +119,19 @@ public class MainDisplayPanel extends JPanel implements ActionListener, ChangeLi
         }
     }
 
-    private class Adder extends Thread {
+    private class NodeAdder implements Runnable {
 
+        static final String ADDER_NAME = "Node-Insert";
         int i;
 
-        public Adder(int i) {
-
-            super("RB-Tree-Insert");
-
+        public NodeAdder(int i) {
             this.i = i;
         }
 
         @Override
         public void run() {
 
-            if (treePanel.insert(new Integer(i))) {/*do nothing if the integer cannot be inserted (due to over-capacity of tree)*/
+            if (treePanel.insert(new Integer(i))) {/*do nothing if the integer cannot be inserted due to over-capacity of tree*/
 
                 values.add(new Integer(i));
 
@@ -140,14 +142,12 @@ public class MainDisplayPanel extends JPanel implements ActionListener, ChangeLi
         }
     }
 
-    private class Remover extends Thread {
+    private class NodeRemover implements Runnable {
 
+        static final String REMOVER_NAME = "Node-Delete";
         int i;
 
-        public Remover(int i) {
-
-            super("RB-Tree-Delete");
-
+        public NodeRemover(int i) {
             this.i = i;
         }
 
@@ -164,14 +164,12 @@ public class MainDisplayPanel extends JPanel implements ActionListener, ChangeLi
         }
     }
 
-    private class Finder extends Thread {
+    private class NodeFinder implements Runnable {
 
+        static final String FINDER_NAME = "Node-Find";
         int i;
 
-        public Finder(int i) {
-
-            super("RB-Tree-Find");
-
+        public NodeFinder(int i) {
             this.i = i;
         }
 
