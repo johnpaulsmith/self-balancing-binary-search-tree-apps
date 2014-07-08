@@ -997,10 +997,6 @@ public class RedBlackTreePanel extends JPanel {
         return null;
     }
 
-    public int sizeOfTree() {
-        return count;
-    }
-
     public boolean isEmpty() {
         return (count == 0);
     }
@@ -1103,9 +1099,5 @@ public class RedBlackTreePanel extends JPanel {
     public void setSpeed(int speed) {
         redrawDelay = (double) speed / 100.0;
         pauseDelay = ((double) speed / 100.0 * 80.0);
-    }
-
-    public int getHeightOfTree() {
-        return (count != 0 ? deepest() : -1);
     }
 }

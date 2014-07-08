@@ -852,10 +852,6 @@ public class SplayTreePanel extends JPanel {
         return null;
     }
 
-    public int sizeOfTree() {
-        return count;
-    }
-
     public boolean isEmpty() {
         return (count == 0);
     }
@@ -967,9 +963,5 @@ public class SplayTreePanel extends JPanel {
 
     public boolean splayIsEnabled() {
         return splayEnabled;
-    }
-
-    public int getHeightOfTree() {
-        return (count != 0 ? deepest() : -1);
     }
 }
