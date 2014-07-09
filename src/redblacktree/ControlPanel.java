@@ -13,8 +13,9 @@ import javax.swing.*;
 
 public class ControlPanel extends JPanel {
 
-    final int MAX_SPEED_VAL = 1000,
-            MIN_SPEED_VAL = 0;
+    final int MAX_SPEED = 1000,
+            MIN_SPEED = 0,
+            DEFAULT_SPEED = 500;
     JPanel buttonPanel, outputPanel;
     JButton addButton, rmButton, clearButton, searchButton;
     JSlider speedControl;
@@ -29,7 +30,7 @@ public class ControlPanel extends JPanel {
         searchButton = new JButton("Find");
         clearButton = new JButton("Clear");
 
-        speedControl = new JSlider(JSlider.HORIZONTAL, MIN_SPEED_VAL, (int) (MAX_SPEED_VAL * .9), 400);
+        speedControl = new JSlider(JSlider.HORIZONTAL, MIN_SPEED, (int) (MAX_SPEED * .9), DEFAULT_SPEED);
         speedControl.setOpaque(false);
 
         inputField = new JTextField(5);

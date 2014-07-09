@@ -42,7 +42,7 @@ public class MainDisplayPanel extends JPanel implements ActionListener, ChangeLi
 
         controlPanel.speedControl.addChangeListener(this);
 
-        treePanel.setSpeed(controlPanel.MAX_SPEED_VAL - controlPanel.speedControl.getValue());
+        treePanel.setSpeed(controlPanel.MAX_SPEED - controlPanel.speedControl.getValue());
 
         add(treePanel);
         add(controlPanel);
@@ -129,7 +129,7 @@ public class MainDisplayPanel extends JPanel implements ActionListener, ChangeLi
             JSlider source = (JSlider) ce.getSource();
 
             if (!source.getValueIsAdjusting()) {
-                treePanel.setSpeed(controlPanel.MAX_SPEED_VAL - source.getValue());
+                treePanel.setSpeed(controlPanel.MAX_SPEED - source.getValue());
             }
         }
     }
