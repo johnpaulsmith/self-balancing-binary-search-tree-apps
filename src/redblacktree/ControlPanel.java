@@ -2,7 +2,6 @@
  * @author John Paul Smith
  *
  */
-
 package redblacktree;
 
 import java.awt.BorderLayout;
@@ -13,6 +12,8 @@ import javax.swing.*;
 
 public class ControlPanel extends JPanel {
 
+    final Color BG_COLOR = new Color(210, 210, 210);
+    final Dimension PANEL_SIZE = new Dimension(1024, 80);
     final int MAX_SPEED = 1000,
             MIN_SPEED = 0,
             DEFAULT_SPEED = 500;
@@ -36,7 +37,7 @@ public class ControlPanel extends JPanel {
         inputField = new JTextField(5);
 
         outputArea = new JTextArea();
-        outputArea.setBackground(new Color(210, 210, 210));
+        outputArea.setBackground(BG_COLOR);
         outputArea.setEditable(false);
         outputArea.setFont(new Font(Font.SERIF, Font.BOLD, 18));
         outputArea.setBorder(null);
@@ -47,7 +48,7 @@ public class ControlPanel extends JPanel {
         valuesLabel = new JLabel("Values in tree:");
 
         buttonPanel = new JPanel();
-        buttonPanel.setBackground(new Color(210, 210, 210));
+        buttonPanel.setBackground(BG_COLOR);
 
         buttonPanel.add(valueLabel);
         buttonPanel.add(inputField);
@@ -60,7 +61,7 @@ public class ControlPanel extends JPanel {
         buttonPanel.add(fastLabel);
 
         outputPanel = new JPanel();
-        outputPanel.setBackground(new Color(210, 210, 210));
+        outputPanel.setBackground(BG_COLOR);
 
         outputPanel.add(valuesLabel);
         outputPanel.add(outputArea);
@@ -70,7 +71,7 @@ public class ControlPanel extends JPanel {
         add(buttonPanel, BorderLayout.NORTH);
         add(outputPanel, BorderLayout.CENTER);
 
-        setPreferredSize(new Dimension(1024, 80));
+        setPreferredSize(new Dimension(PANEL_SIZE));
         setBorder(BorderFactory.createRaisedSoftBevelBorder());
     }
 }
