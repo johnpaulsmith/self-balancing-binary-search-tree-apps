@@ -19,7 +19,7 @@ public class RedBlackTreePanel extends JPanel {
     final int NODE_DIAM = 30;
     final int V_SPACER = (NODE_DIAM * 3);
     final int HIGHLIGHT_DELAY = 1000;
-    final double DELAY_INCREMENT = .1;
+    final double DELAY_INCREMENT = .15;
     final Dimension PANEL_SIZE = new Dimension(1024, 708);
     final Color BG_COLOR = new Color(210, 210, 210);
     Node root, nil;
@@ -39,8 +39,8 @@ public class RedBlackTreePanel extends JPanel {
         root = nil = new Node(null, Color.black, null, nil, nil);
         count = 0;
         nodes = new ArrayList<>();
-        redrawDelay = 4;
-        pauseDelay = 320;
+        redrawDelay = 5;
+        pauseDelay = 500;
     }
 
     public synchronized boolean insert(Integer e) {
@@ -1098,6 +1098,6 @@ public class RedBlackTreePanel extends JPanel {
 
     public void setSpeed(int speed) {
         redrawDelay = (double) speed / 100.0;
-        pauseDelay = ((double) speed / 100.0 * 80.0);
+        pauseDelay = (double) speed;
     }
 }
