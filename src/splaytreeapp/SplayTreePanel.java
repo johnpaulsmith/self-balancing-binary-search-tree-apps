@@ -756,50 +756,50 @@ public class SplayTreePanel extends JPanel {
         n.x += (x * (xSpacer / ySpacer));
     }
 
-    private void subTreeLeftSide(Node n, Node r, Node[] A, int deepest) {
+    private void subTreeLeftSide(Node n, Node r, Node[] a, int deepest) {
 
         int nDepth = relativeDepthOf(n, r);
         int maxSubTreeSize = (int) Math.pow(2, deepest - nDepth) - 1;
 
         if (n.left != nil) {
-            subTreeLeftSide(n.left, r, A, deepest);
+            subTreeLeftSide(n.left, r, a, deepest);
         } else {
             for (int z = 0; z < maxSubTreeSize; ++z) {
-                A[i++] = null;
+                a[i++] = null;
             }
         }
 
-        A[i++] = n;
+        a[i++] = n;
 
         if (n.right != nil) {
-            subTreeLeftSide(n.right, r, A, deepest);
+            subTreeLeftSide(n.right, r, a, deepest);
         } else {
             for (int z = 0; z < maxSubTreeSize; ++z) {
-                A[i++] = null;
+                a[i++] = null;
             }
         }
     }
 
-    private void subTreeRightSide(Node n, Node r, Node[] A, int deepest) {
+    private void subTreeRightSide(Node n, Node r, Node[] a, int deepest) {
 
         int nDepth = relativeDepthOf(n, r);
         int maxSubTreeSize = (int) Math.pow(2, deepest - nDepth) - 1;
 
         if (n.right != nil) {
-            subTreeRightSide(n.right, r, A, deepest);
+            subTreeRightSide(n.right, r, a, deepest);
         } else {
             for (int x = 0; x < maxSubTreeSize; ++x) {
-                A[j++] = null;
+                a[j++] = null;
             }
         }
 
-        A[j++] = n;
+        a[j++] = n;
 
         if (n.left != nil) {
-            subTreeRightSide(n.left, r, A, deepest);
+            subTreeRightSide(n.left, r, a, deepest);
         } else {
             for (int x = 0; x < maxSubTreeSize; ++x) {
-                A[j++] = null;
+                a[j++] = null;
             }
         }
     }
