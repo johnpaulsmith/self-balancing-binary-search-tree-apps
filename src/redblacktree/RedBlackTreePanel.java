@@ -260,10 +260,10 @@ public class RedBlackTreePanel extends JPanel {
         
         n.color = opColor;
 
-        if (n.left == nil) {
+        repaint();
+        pause(pauseDelay);
             
-            repaint();
-            pause(pauseDelay);
+        if (n.left == nil) {
 
             p = n.right;
             bypass(n, n.right);
@@ -305,9 +305,6 @@ public class RedBlackTreePanel extends JPanel {
             }
 
         } else if (n.right == nil) {
-            
-            repaint();
-            pause(pauseDelay);
 
             p = n.left;
 
@@ -350,14 +347,13 @@ public class RedBlackTreePanel extends JPanel {
             }
         } else {           
 
-            repaint();
-            pause(pauseDelay);
-
-            q = min(n.right);
+            Color oColor = originalColor;
             
-            q.color = originalColor;
-
+            q = min(n.right);           
+            
             originalColor = q.color;
+            
+            q.color = oColor;            
 
             p = q.right;
 
