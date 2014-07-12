@@ -257,12 +257,12 @@ public class RedBlackTreePanel extends JPanel {
 
         Color originalColor = n.color;
         Node p, q;
-        
+
         n.color = opColor;
 
         repaint();
         pause(pauseDelay);
-            
+
         if (n.left == nil) {
 
             p = n.right;
@@ -282,20 +282,20 @@ public class RedBlackTreePanel extends JPanel {
 
                 j = 1;
 
-                int deepest = deepest(p, p);
+                int d = deepest(p, p);
 
-                Node[] A = new Node[(int) Math.pow(2, deepest + 1)];
+                Node[] rightSubTree = new Node[(int) Math.pow(2, d + 1)];
 
-                subTreeRightSide(p, p, A, deepest);
+                subTreeRightSide(p, p, rightSubTree, d);
 
-                double xSpacer = (getSize().width / Math.pow(2, deepest(p, root) + 2));
+                double rootNodeHSpacer = (getSize().width / Math.pow(2, deepest(p, root) + 2));
 
                 for (int c = 0; c < V_SPACER; ++c) {
 
-                    for (int w = 1; w < A.length; ++w) {
+                    for (int w = 1; w < rightSubTree.length; ++w) {
 
-                        if (A[w] != null) {
-                            updateCoordinates(A[w], -1, -1, (w * xSpacer), V_SPACER);
+                        if (rightSubTree[w] != null) {
+                            updateCoordinates(rightSubTree[w], -1, -1, (w * rootNodeHSpacer), V_SPACER);
                         }
                     }
 
@@ -324,20 +324,20 @@ public class RedBlackTreePanel extends JPanel {
 
                 i = 1;
 
-                int deepest = deepest(p, p);
+                int d = deepest(p, p);
 
-                Node[] A = new Node[(int) Math.pow(2, deepest + 1)];
+                Node[] leftSubTree = new Node[(int) Math.pow(2, d + 1)];
 
-                subTreeLeftSide(p, p, A, deepest);
+                subTreeLeftSide(p, p, leftSubTree, d);
 
-                double xSpacer = (getSize().width / Math.pow(2, deepest(p, root) + 2));
+                double rootNodeHSpacer = (getSize().width / Math.pow(2, deepest(p, root) + 2));
 
                 for (int c = 0; c < V_SPACER; ++c) {
 
-                    for (int w = 1; w < A.length; ++w) {
+                    for (int w = 1; w < leftSubTree.length; ++w) {
 
-                        if (A[w] != null) {
-                            updateCoordinates(A[w], 1, -1, (w * xSpacer), V_SPACER);
+                        if (leftSubTree[w] != null) {
+                            updateCoordinates(leftSubTree[w], 1, -1, (w * rootNodeHSpacer), V_SPACER);
                         }
                     }
 
@@ -345,15 +345,15 @@ public class RedBlackTreePanel extends JPanel {
                     repaint();
                 }
             }
-        } else {           
+        } else {
 
             Color oColor = originalColor;
-            
-            q = min(n.right);           
-            
+
+            q = min(n.right);
+
             originalColor = q.color;
-            
-            q.color = oColor;            
+
+            q.color = oColor;
 
             p = q.right;
 
@@ -374,7 +374,7 @@ public class RedBlackTreePanel extends JPanel {
 
             q.left = n.left;
 
-            q.left.parent = q;            
+            q.left.parent = q;
 
             q.x = n.x;
             q.y = n.y;
@@ -393,20 +393,20 @@ public class RedBlackTreePanel extends JPanel {
 
                 j = 1;
 
-                int deepest = deepest(p, p);
+                int d = deepest(p, p);
 
-                Node[] A = new Node[(int) Math.pow(2, deepest + 1)];
+                Node[] rightSubTree = new Node[(int) Math.pow(2, d + 1)];
 
-                subTreeRightSide(p, p, A, deepest);
+                subTreeRightSide(p, p, rightSubTree, d);
 
-                double xSpacer = (getSize().width / Math.pow(2, deepest(p, root) + 2));
+                double rootNodeHSpacer = (getSize().width / Math.pow(2, deepest(p, root) + 2));
 
                 for (int c = 0; c < V_SPACER; ++c) {
 
-                    for (int w = 1; w < A.length; ++w) {
+                    for (int w = 1; w < rightSubTree.length; ++w) {
 
-                        if (A[w] != null) {
-                            updateCoordinates(A[w], -1, -1, (w * xSpacer), V_SPACER);
+                        if (rightSubTree[w] != null) {
+                            updateCoordinates(rightSubTree[w], -1, -1, (w * rootNodeHSpacer), V_SPACER);
                         }
                     }
 
@@ -653,62 +653,62 @@ public class RedBlackTreePanel extends JPanel {
         repaint();
         pause(pauseDelay);
 
-        double xLeftSpacer = 0,
-                yRightSpacer = 0;
+        double leftSubTreeSpacer = 0,
+                rightSubTreeSpacer = 0;
 
-        Node[] A, B;
+        Node[] rightSubTree, leftSubTree;
 
         i = j = 1;
 
         if (q.right != nil) {
 
-            int yRightDeepest = deepest(q.right, q.right);
+            int d = deepest(q.right, q.right);
 
-            A = new Node[(int) Math.pow(2, yRightDeepest + 1)];
+            rightSubTree = new Node[(int) Math.pow(2, d + 1)];
 
-            subTreeRightSide(q.right, q.right, A, yRightDeepest);
+            subTreeRightSide(q.right, q.right, rightSubTree, d);
 
-            yRightSpacer = (getSize().width / Math.pow(2, deepest(q.right, root) + 2));
+            rightSubTreeSpacer = (getSize().width / Math.pow(2, deepest(q.right, root) + 2));
 
         } else {
-            A = new Node[0];
+            rightSubTree = new Node[0];
         }
 
         if (n.left != nil) {
 
-            int xLeftDeepest = deepest(n.left, n.left);
+            int d = deepest(n.left, n.left);
 
-            B = new Node[(int) Math.pow(2, xLeftDeepest + 1)];
+            leftSubTree = new Node[(int) Math.pow(2, d + 1)];
 
-            subTreeLeftSide(n.left, n.left, B, xLeftDeepest);
+            subTreeLeftSide(n.left, n.left, leftSubTree, d);
 
-            xLeftSpacer = (getSize().width / Math.pow(2, deepest(n.left, root) + 1));
+            leftSubTreeSpacer = (getSize().width / Math.pow(2, deepest(n.left, root) + 1));
 
         } else {
-            B = new Node[0];
+            leftSubTree = new Node[0];
         }
 
-        double xSpacer = (getSize().width / Math.pow(2, depthOf(n) + 1));
+        double rootNodeHSpacer = (getSize().width / Math.pow(2, depthOf(n) + 1));
 
         for (int c = 0; c < V_SPACER; ++c) {
 
             ++n.y;
-            n.x -= (xSpacer / V_SPACER);
+            n.x -= (rootNodeHSpacer / V_SPACER);
 
             --q.y;
-            q.x -= (xSpacer / V_SPACER);
+            q.x -= (rootNodeHSpacer / V_SPACER);
 
-            for (int z = 1; z < A.length; ++z) {
+            for (int z = 1; z < rightSubTree.length; ++z) {
 
-                if (A[z] != null) {
-                    updateCoordinates(A[z], -1, -1, (z * yRightSpacer), V_SPACER);
+                if (rightSubTree[z] != null) {
+                    updateCoordinates(rightSubTree[z], -1, -1, (z * rightSubTreeSpacer), V_SPACER);
                 }
             }
 
-            for (int z = 1; z < B.length; ++z) {
+            for (int z = 1; z < leftSubTree.length; ++z) {
 
-                if (B[z] != null) {
-                    updateCoordinates(B[z], -1, 1, (z * xLeftSpacer), V_SPACER);
+                if (leftSubTree[z] != null) {
+                    updateCoordinates(leftSubTree[z], -1, 1, (z * leftSubTreeSpacer), V_SPACER);
                 }
             }
 
@@ -753,62 +753,62 @@ public class RedBlackTreePanel extends JPanel {
         repaint();
         pause(pauseDelay);
 
-        double yLeftSpacer = 0,
-                xRightSpacer = 0;
+        double leftSubTreeSpacer = 0,
+                rightSubTreeSpacer = 0;
 
-        Node[] A, B;
+        Node[] leftSubTree, rightSubTree;
 
         i = j = 1;
 
         if (q.left != nil) {
 
-            int yLeftDeepest = deepest(q.left, q.left);
+            int leftSubTreeDeepest = deepest(q.left, q.left);
 
-            A = new Node[(int) Math.pow(2, yLeftDeepest + 1)];
+            leftSubTree = new Node[(int) Math.pow(2, leftSubTreeDeepest + 1)];
 
-            subTreeLeftSide(q.left, q.left, A, yLeftDeepest);
+            subTreeLeftSide(q.left, q.left, leftSubTree, leftSubTreeDeepest);
 
-            yLeftSpacer = (getSize().width / Math.pow(2, deepest(q.left, root) + 2));
+            leftSubTreeSpacer = (getSize().width / Math.pow(2, deepest(q.left, root) + 2));
 
         } else {
-            A = new Node[0];
+            leftSubTree = new Node[0];
         }
 
         if (n.right != nil) {
 
-            int xRightDeepest = deepest(n.right, n.right);
+            int rightSubTreeDeepest = deepest(n.right, n.right);
 
-            B = new Node[(int) Math.pow(2, xRightDeepest + 1)];
+            rightSubTree = new Node[(int) Math.pow(2, rightSubTreeDeepest + 1)];
 
-            subTreeRightSide(n.right, n.right, B, xRightDeepest);
+            subTreeRightSide(n.right, n.right, rightSubTree, rightSubTreeDeepest);
 
-            xRightSpacer = (getSize().width / Math.pow(2, deepest(n.right, root) + 1));
+            rightSubTreeSpacer = (getSize().width / Math.pow(2, deepest(n.right, root) + 1));
 
         } else {
-            B = new Node[0];
+            rightSubTree = new Node[0];
         }
 
-        double xSpacer = (getSize().width / Math.pow(2, depthOf(n) + 1));
+        double rootNodeHSpacer = (getSize().width / Math.pow(2, depthOf(n) + 1));
 
         for (int c = 0; c < V_SPACER; ++c) {
 
             ++n.y;
-            n.x += (xSpacer / V_SPACER);
+            n.x += (rootNodeHSpacer / V_SPACER);
 
             --q.y;
-            q.x += (xSpacer / V_SPACER);
+            q.x += (rootNodeHSpacer / V_SPACER);
 
-            for (int z = 1; z < A.length; ++z) {
+            for (int z = 1; z < leftSubTree.length; ++z) {
 
-                if (A[z] != null) {
-                    updateCoordinates(A[z], 1, -1, (z * yLeftSpacer), V_SPACER);
+                if (leftSubTree[z] != null) {
+                    updateCoordinates(leftSubTree[z], 1, -1, (z * leftSubTreeSpacer), V_SPACER);
                 }
             }
 
-            for (int z = 1; z < B.length; ++z) {
+            for (int z = 1; z < rightSubTree.length; ++z) {
 
-                if (B[z] != null) {
-                    updateCoordinates(B[z], 1, 1, (z * xRightSpacer), V_SPACER);
+                if (rightSubTree[z] != null) {
+                    updateCoordinates(rightSubTree[z], 1, 1, (z * rightSubTreeSpacer), V_SPACER);
                 }
             }
 
