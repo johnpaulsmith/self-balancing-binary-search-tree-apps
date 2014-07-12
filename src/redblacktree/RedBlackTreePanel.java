@@ -141,84 +141,84 @@ public class RedBlackTreePanel extends JPanel {
         return true;
     }
 
-    private void insertFix(Node z) {
+    private void insertFix(Node n) {
 
         Node p;
 
-        while (z.parent.color == Color.red) {
+        while (n.parent.color == Color.red) {
 
-            if (z.parent == z.parent.parent.left) {
+            if (n.parent == n.parent.parent.left) {
 
-                p = z.parent.parent.right;
+                p = n.parent.parent.right;
 
                 if (p.color == Color.red) {
 
                     pause(pauseDelay);
 
-                    p.color = z.parent.color = Color.black;
+                    p.color = n.parent.color = Color.black;
 
                     repaint();
                     pause(pauseDelay);
 
-                    z.parent.parent.color = Color.red;
+                    n.parent.parent.color = Color.red;
 
                     repaint();
                     pause(pauseDelay);
 
-                    z = z.parent.parent;
+                    n = n.parent.parent;
 
                 } else {
 
-                    if (z == z.parent.right) {
+                    if (n == n.parent.right) {
 
-                        z = z.parent;
+                        n = n.parent;
 
-                        leftRotate(z);
+                        leftRotate(n);
                     }
 
                     repaint();
                     pause(pauseDelay);
 
-                    z.parent.color = Color.black;
+                    n.parent.color = Color.black;
 
                     repaint();
                     pause(pauseDelay);
 
-                    z.parent.parent.color = Color.red;
+                    n.parent.parent.color = Color.red;
 
                     repaint();
                     pause(pauseDelay);
 
-                    rightRotate(z.parent.parent);
+                    rightRotate(n.parent.parent);
                 }
             } else {
 
-                p = z.parent.parent.left;
+                p = n.parent.parent.left;
 
                 if (p.color == Color.red) {
 
                     repaint();
                     pause(pauseDelay);
 
-                    p.color = z.parent.color = Color.black;
+                    p.color = n.parent.color = Color.black;
 
                     repaint();
                     pause(pauseDelay);
 
-                    z.parent.parent.color = Color.red;
+                    n.parent.parent.color = Color.red;
 
                     repaint();
                     pause(pauseDelay);
 
-                    z = z.parent.parent;
+                    n = n.parent.parent;
 
                 } else {
 
-                    if (z == z.parent.left) {
+                    if (n == n.parent.left) {
 
-                        z = z.parent;
+                        n = n.parent;
 
-                        rightRotate(z);
+                        rightRotate(n);
 
                         repaint();
                         pause(pauseDelay);
@@ -227,17 +227,17 @@ public class RedBlackTreePanel extends JPanel {
                     repaint();
                     pause(pauseDelay);
 
-                    z.parent.color = Color.black;
+                    n.parent.color = Color.black;
 
                     repaint();
                     pause(pauseDelay);
 
-                    z.parent.parent.color = Color.red;
+                    n.parent.parent.color = Color.red;
 
                     repaint();
                     pause(pauseDelay);
 
-                    leftRotate(z.parent.parent);
+                    leftRotate(n.parent.parent);
 
                     repaint();
                     pause(pauseDelay);
@@ -255,13 +255,13 @@ public class RedBlackTreePanel extends JPanel {
 
     private Node remove(Node n) {
 
-        Color originalcolor = n.color;
+        Color originalColor = n.color;
         Node p, q;
+        
+        n.color = opColor;
 
         if (n.left == nil) {
-
-            n.color = Color.blue;
-
+            
             repaint();
             pause(pauseDelay);
 
@@ -305,9 +305,7 @@ public class RedBlackTreePanel extends JPanel {
             }
 
         } else if (n.right == nil) {
-
-            n.color = Color.blue;
-
+            
             repaint();
             pause(pauseDelay);
 
@@ -350,18 +348,16 @@ public class RedBlackTreePanel extends JPanel {
                     repaint();
                 }
             }
-        } else {
-
-            Color zColor = n.color;
-
-            n.color = Color.blue;
+        } else {           
 
             repaint();
             pause(pauseDelay);
 
             q = min(n.right);
+            
+            q.color = originalColor;
 
-            originalcolor = q.color;
+            originalColor = q.color;
 
             p = q.right;
 
@@ -382,9 +378,7 @@ public class RedBlackTreePanel extends JPanel {
 
             q.left = n.left;
 
-            q.left.parent = q;
-
-            q.color = zColor;
+            q.left.parent = q;            
 
             q.x = n.x;
             q.y = n.y;
@@ -430,7 +424,7 @@ public class RedBlackTreePanel extends JPanel {
 
         pause(pauseDelay);
 
-        if (originalcolor == Color.black) {
+        if (originalColor == Color.black) {
             removeFix(p);
         }
 
