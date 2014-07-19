@@ -756,26 +756,26 @@ public class SplayTreePanel extends JPanel {
         n.x += (x * (xSpacer / ySpacer));
     }
 
-    private void subTreeLeftSide(Node n, Node r, Node[] a, int deepest) {
+    private void subTreeLeftSide(Node n, Node r, Node[] A, int deepest) {
 
         int nDepth = relativeDepthOf(n, r);
         int maxSubTreeSize = (int) Math.pow(2, deepest - nDepth) - 1;
 
         if (n.left != nil) {
-            subTreeLeftSide(n.left, r, a, deepest);
+            subTreeLeftSide(n.left, r, A, deepest);
         } else {
             for (int z = 0; z < maxSubTreeSize; ++z) {
-                a[i++] = null;
+                A[i++] = null;
             }
         }
 
-        a[i++] = n;
+        A[i++] = n;
 
         if (n.right != nil) {
-            subTreeLeftSide(n.right, r, a, deepest);
+            subTreeLeftSide(n.right, r, A, deepest);
         } else {
             for (int z = 0; z < maxSubTreeSize; ++z) {
-                a[i++] = null;
+                A[i++] = null;
             }
         }
     }
@@ -830,7 +830,7 @@ public class SplayTreePanel extends JPanel {
         return n;
     }
 
-    public boolean containsElement(Integer e) {
+    public boolean contains(Integer e) {
         return (findKey(e) != null);
     }
 

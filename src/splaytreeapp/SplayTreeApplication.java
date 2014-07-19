@@ -9,19 +9,19 @@ import javax.swing.UIManager;
 
 public class SplayTreeApplication extends JFrame {
 
-    public SplayTreeApplication() {    
-        
+    public SplayTreeApplication() {
+
         super("Splay Tree");
-        
+
         add(new MainDisplayPanel());
-        
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        setResizable(false);      
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         pack();
     }
-    
-    public static void main(String[] args) {       
-               
+
+    public static void main(String[] args) {
+
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 
@@ -32,11 +32,11 @@ public class SplayTreeApplication extends JFrame {
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             /**
-             * Do nothing if Nimbus is unavailable. The UIManager will use the cross-platform default ("Metal") in this case.
+             * Do nothing if Nimbus is unavailable. The UIManager will use the
+             * cross-platform default ("Metal") in this case.
              */
         }
 
         new SplayTreeApplication().setVisible(true);
     }
 }
-

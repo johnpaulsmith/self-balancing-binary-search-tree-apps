@@ -924,7 +924,7 @@ public class RedBlackTreePanel extends JPanel {
         return n;
     }
 
-    public boolean containsElement(Integer e) {
+    public boolean contains(Integer e) {
         return (findKey(e) != null);
     }
 
