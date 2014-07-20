@@ -3,8 +3,6 @@ Red-Black Tree and Splay Tree Animation
 
 John Paul Smith
 
-Created: 11/26/2012
-
 Desktop teaching aid applications for demonstrating several self-balancing 
 binary search trees. Allows visual animated demonstrations of operations 
 performed on binary search trees that utilize the "red-black" and "splay" 
@@ -39,5 +37,9 @@ less-than-symmetric tree to be displayed (at best) and unpredictable behavior
 
 The splay tree program features a button that allows the user to turn the 
 splaying on and off. A splay tree without splaying is simply a plain old
-binary search tree, so this program doubles as simple, non-balancing BST
-demo as well. 
+binary search tree, so this program doubles as a non-balancing BST demo as 
+well. 
+
+Duplicate keys are disallowed in these data structures. Inserting duplicates
+can cause a violation of the binary search tree property when rotations to the
+left are performed. 
