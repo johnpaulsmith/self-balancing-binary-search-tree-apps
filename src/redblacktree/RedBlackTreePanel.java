@@ -45,7 +45,7 @@ public class RedBlackTreePanel extends JPanel {
 
     public synchronized boolean insert(Integer e) {
 
-        if (count >= MAX_CAPACITY) {
+        if (count >= MAX_CAPACITY || contains(e)) {
             return false;
         }
 
