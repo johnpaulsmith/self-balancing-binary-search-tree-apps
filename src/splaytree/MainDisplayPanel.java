@@ -113,7 +113,7 @@ public class MainDisplayPanel extends JPanel implements ActionListener, ChangeLi
 
             if (treePanel.splayIsEnabled()) {
 
-                controlPanel.splayButton.setBackground(new Color(255, 0, 0));
+                controlPanel.splayButton.setBackground(Color.red);
             } else {
 
                 controlPanel.splayButton.setBackground(controlPanel.addButton.getBackground());
