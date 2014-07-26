@@ -77,8 +77,6 @@ public class RedBlackTreePanel extends JPanel {
             repaint();
             pause(pauseDelay);
 
-            n.color = Color.black;
-
         } else if (n.compareTo(p) < 0) {
 
             p.left = n;
@@ -97,9 +95,7 @@ public class RedBlackTreePanel extends JPanel {
 
             repaint();
             pause(pauseDelay);
-
-            n.color = Color.red;
-
+            
         } else {
 
             p.right = n;
@@ -117,11 +113,11 @@ public class RedBlackTreePanel extends JPanel {
             }
 
             repaint();
-            pause(pauseDelay);
-
-            n.color = Color.red;
+            pause(pauseDelay);            
         }
 
+        n.color = (p == nil) ? Color.black : Color.red;
+        
         repaint();
         pause(pauseDelay);
 
