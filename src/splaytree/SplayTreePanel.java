@@ -831,11 +831,7 @@ public class SplayTreePanel extends JPanel {
     }
 
     public boolean contains(Integer e) {
-        return (findKey(e) != null);
-    }
-
-    private Node findKey(Integer e) {
-        return (count == 0 ? null : findKey(e, root));
+        return (findKey(e, root) != null);
     }
 
     private Node findKey(Integer e, Node n) {

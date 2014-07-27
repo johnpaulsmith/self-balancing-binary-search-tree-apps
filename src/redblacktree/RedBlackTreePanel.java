@@ -921,7 +921,7 @@ public class RedBlackTreePanel extends JPanel {
     }
 
     public boolean contains(Integer e) {
-        return (findKey(e) != null);
+        return (findKey(e, root) != null);
     }
 
     public synchronized Integer find(Integer e) {
@@ -962,10 +962,6 @@ public class RedBlackTreePanel extends JPanel {
         }
 
         return (prev == n ? n : null);
-    }
-
-    private Node findKey(Integer e) {
-        return (count == 0 ? null : findKey(e, root));
     }
 
     private Node findKey(Integer e, Node n) {
