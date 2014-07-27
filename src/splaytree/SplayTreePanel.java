@@ -479,7 +479,7 @@ public class SplayTreePanel extends JPanel {
         }
     }
 
-    public synchronized Integer splayFind(Integer e) {
+    public synchronized Integer find(Integer e) {
 
         Node n = splayFind(e, root);
 

@@ -190,7 +190,7 @@ public class MainDisplayPanel extends JPanel implements ActionListener, ChangeLi
 
         @Override
         public void run() {
-            treePanel.splayFind(new Integer(i));
+            treePanel.find(new Integer(i));
         }
     }
 }

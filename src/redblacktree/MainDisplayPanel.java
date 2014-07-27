@@ -175,7 +175,7 @@ public class MainDisplayPanel extends JPanel implements ActionListener, ChangeLi
 
         @Override
         public void run() {
-            treePanel.redBlackFind(new Integer(i));
+            treePanel.find(new Integer(i));
         }
     }
 }

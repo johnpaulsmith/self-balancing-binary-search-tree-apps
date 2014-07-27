@@ -924,7 +924,7 @@ public class RedBlackTreePanel extends JPanel {
         return (findKey(e) != null);
     }
 
-    public synchronized Integer redBlackFind(Integer e) {
+    public synchronized Integer find(Integer e) {
 
         Node n = redBlackFind(e, root);
 
