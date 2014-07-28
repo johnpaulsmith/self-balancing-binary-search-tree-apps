@@ -477,55 +477,7 @@ public class SplayTreePanel extends JPanel {
                 }
             }
         }
-    }
-
-    public synchronized Integer find(Integer e) {
-
-        Node n = splayFind(e, root);
-
-        return (n == null ? null : n.t);
-    }
-
-    private Node splayFind(Integer e, Node n) {
-
-        Node prev = n;
-
-        while (n != nil) {
-
-            prev = n;
-
-            if (e.compareTo(n.t) == 0) {
-                break;
-            } else if (e.compareTo(n.t) < 0) {
-                n = n.left;
-            } else {
-                n = n.right;
-            }
-        }
-
-        if (splayEnabled) {
-
-            prev.color = opColor;
-
-            repaint();
-            pause(HIGHLIGHT_DELAY);
-
-            splay(prev);
-
-        } else if (prev == n) {
-
-            prev.color = opColor;
-
-            repaint();
-            pause(HIGHLIGHT_DELAY);
-        }
-
-        prev.color = nodeColor;
-
-        repaint();
-
-        return (prev == n ? n : null);
-    }
+    }    
 
     private void leftRotate(Node n) {
 
@@ -832,6 +784,54 @@ public class SplayTreePanel extends JPanel {
 
     public boolean contains(Integer e) {
         return (findKey(e, root) != null);
+    }
+    
+    public synchronized Integer find(Integer e) {
+
+        Node n = splayFind(e, root);
+
+        return (n == null ? null : n.t);
+    }
+
+    private Node splayFind(Integer e, Node n) {
+
+        Node prev = n;
+
+        while (n != nil) {
+
+            prev = n;
+
+            if (e.compareTo(n.t) == 0) {
+                break;
+            } else if (e.compareTo(n.t) < 0) {
+                n = n.left;
+            } else {
+                n = n.right;
+            }
+        }
+
+        if (splayEnabled) {
+
+            prev.color = opColor;
+
+            repaint();
+            pause(HIGHLIGHT_DELAY);
+
+            splay(prev);
+
+        } else if (prev == n) {
+
+            prev.color = opColor;
+
+            repaint();
+            pause(HIGHLIGHT_DELAY);
+        }
+
+        prev.color = nodeColor;
+
+        repaint();
+
+        return (prev == n ? n : null);
     }
 
     private Node findKey(Integer e, Node n) {
