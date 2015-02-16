@@ -215,9 +215,6 @@ public class RedBlackTreePanel extends JPanel {
                         n = n.parent;
 
                         rightRotate(n);
-
-                        repaint();
-                        pause(pauseDelay);
                     }
 
                     repaint();
